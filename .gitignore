@@ -8,6 +8,10 @@
 /INPUT_BACKUP
 /INPUT_BACKUP/*
 
+# Target
+target
+target/*
+
 # Intellij
 /.idea
 digital-wallet.iml

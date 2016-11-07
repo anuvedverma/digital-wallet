@@ -8,7 +8,6 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo $DIR
 
-# SUN JAVAC BUG: enum class Feature must be compiled first, otherwise we get incorrect errors
 javac -classpath ./src/Feature.java ./src/*.java
 cd src
 java PaymoDriver $DIR/paymo_input/batch_payment.csv $DIR/paymo_input/stream_payment.csv $DIR/paymo_output/output1.txt $DIR/paymo_output/output2.txt $DIR/paymo_output/output3.txt
