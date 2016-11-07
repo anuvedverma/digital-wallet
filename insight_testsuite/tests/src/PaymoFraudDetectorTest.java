@@ -16,8 +16,8 @@ public class PaymoFraudDetectorTest {
 
     @Before
     public void initPaymoGraph() throws FileNotFoundException {
-        mBatchPaymentsFile = new File("insight_testsuite/tests/test-0-paymo-trans/paymo_input/batch_payment_test.csv");
-        mStreamPaymentsFile = new File("insight_testsuite/tests/test-0-paymo-trans/paymo_input/stream_payment_test.csv");
+        mBatchPaymentsFile = new File("test-0-paymo-trans/paymo_input/batch_payment_test.csv");
+        mStreamPaymentsFile = new File("test-0-paymo-trans/paymo_input/stream_payment_test.csv");
         mPaymoFraudDetector = new PaymoFraudDetector();
     }
 
@@ -97,7 +97,7 @@ public class PaymoFraudDetectorTest {
 
         mPaymoFraudDetector.initGraph(mBatchPaymentsFile);
         mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile,
-                new File("insight_testsuite/tests/test-0-paymo-trans/paymo_output/output1.txt"),
+                new File("test-0-paymo-trans/paymo_output/output1.txt"),
                 Feature.FEATURE_ONE);
 
         File output = mPaymoFraudDetector.getOutputFile();
@@ -111,7 +111,7 @@ public class PaymoFraudDetectorTest {
     @Test(expected = UninitializedGraphException.class)
     public void testAnalyzeStreamWithoutInit() throws IOException, UninitializedGraphException {
         mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile,
-                new File("insight_testsuite/tests/test-0-paymo-trans/paymo_output/output1.txt"),
+                new File("test-0-paymo-trans/paymo_output/output1.txt"),
                 Feature.FEATURE_ONE);
     }
 
@@ -122,7 +122,7 @@ public class PaymoFraudDetectorTest {
 
         mPaymoFraudDetector.initGraph(mBatchPaymentsFile);
         mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile,
-                new File("insight_testsuite/tests/test-0-paymo-trans/paymo_output/output1.txt"),
+                new File("test-0-paymo-trans/paymo_output/output1.txt"),
                 Feature.FEATURE_ONE);
 
         File output = mPaymoFraudDetector.getOutputFile();
@@ -148,7 +148,7 @@ public class PaymoFraudDetectorTest {
 
         mPaymoFraudDetector.initGraph(mBatchPaymentsFile);
         mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile,
-                new File("insight_testsuite/tests/test-0-paymo-trans/paymo_output/output2.txt"),
+                new File("test-0-paymo-trans/paymo_output/output2.txt"),
                 Feature.FEATURE_TWO);
 
         File output = mPaymoFraudDetector.getOutputFile();
@@ -174,7 +174,7 @@ public class PaymoFraudDetectorTest {
 
         mPaymoFraudDetector.initGraph(mBatchPaymentsFile);
         mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile,
-                new File("insight_testsuite/tests/test-0-paymo-trans/paymo_output/output3.txt"),
+                new File("test-0-paymo-trans/paymo_output/output3.txt"),
                 Feature.FEATURE_THREE);
 
         File output = mPaymoFraudDetector.getOutputFile();

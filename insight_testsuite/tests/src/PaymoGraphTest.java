@@ -14,8 +14,8 @@ public class PaymoGraphTest {
 
     @Before
     public void initPaymoGraph() throws FileNotFoundException {
-        File batchPaymentsFile = new File("insight_testsuite/tests/test-0-paymo-trans/paymo_input/batch_payment_test.csv");
-//        File batchPaymentsFile = new File("insight_testsuite/tests/test-1-paymo-trans/paymo_input/batch_payment.txt");
+        File batchPaymentsFile = new File("test-0-paymo-trans/paymo_input/batch_payment_test.csv");
+//        File batchPaymentsFile = new File("test-1-paymo-trans/paymo_input/batch_payment.txt");
 
         PaymoFraudDetector pfd = new PaymoFraudDetector();
         pfd.initGraph(batchPaymentsFile);
