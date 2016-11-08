@@ -1,4 +1,5 @@
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Created by Anuved on 11/5/2016.
@@ -6,7 +7,7 @@ import java.io.*;
  * @Class PaymoDriver
  * Main class to start program from terminal/bash.
  */
-public class PayMoDriver {
+public class RenameDriver {
 
     /* Main method: handles 5 arguments:
      * @arg0: input batch payment file for initializing graph
