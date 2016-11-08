@@ -16,7 +16,7 @@ public class PaymoFeaturesTest {
 
     @Before
     public void initPaymoGraph() throws FileNotFoundException {
-        File batchPaymentsFile = new File("test-0-paymo-trans/paymo_input/batch_payment_test.csv");
+        File batchPaymentsFile = new File("unit-tests/test-2-paymo-trans/paymo_input/batch_payment_test.csv");
 
         PaymoFraudDetector pfd = new PaymoFraudDetector();
         pfd.initGraph(batchPaymentsFile);
@@ -41,7 +41,7 @@ public class PaymoFeaturesTest {
         mPaymoGraph.addTransaction(new PaymoTransaction(date, user1, user3, amount, message));
 
         // use reflection to test private methods
-        Method method = PaymoGraph.class.getDeclaredMethod("feature1", Vertex.class, Vertex.class);
+        Method method = PaymoGraph.class.getDeclaredMethod("isWithinOneDegree", Vertex.class, Vertex.class);
         method.setAccessible(true);
 
         // test feature1 method
@@ -81,7 +81,7 @@ public class PaymoFeaturesTest {
         mPaymoGraph.addTransaction(new PaymoTransaction(date, user3, user4, amount, message));
 
         // use reflection to test private methods
-        Method method = PaymoGraph.class.getDeclaredMethod("feature2", Vertex.class, Vertex.class);
+        Method method = PaymoGraph.class.getDeclaredMethod("isWithinTwoDegrees", Vertex.class, Vertex.class);
         method.setAccessible(true);
 
         // test feature1 method
@@ -133,7 +133,7 @@ public class PaymoFeaturesTest {
         Integer degreeThreshold = 4;
 
         // use reflection to test private methods
-        Method method = PaymoGraph.class.getDeclaredMethod("feature3", Vertex.class, Vertex.class, Integer.TYPE);
+        Method method = PaymoGraph.class.getDeclaredMethod("isWithinXDegrees", Vertex.class, Vertex.class, int.class);
         method.setAccessible(true);
 
         // test feature1 method

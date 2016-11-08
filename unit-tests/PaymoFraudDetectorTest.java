@@ -14,10 +14,17 @@ public class PaymoFraudDetectorTest {
     private File mBatchPaymentsFile;
     private File mStreamPaymentsFile;
 
+    private File mOutput1;
+    private File mOutput2;
+    private File mOutput3;
+
     @Before
-    public void initPaymoGraph() throws FileNotFoundException {
-        mBatchPaymentsFile = new File("test-0-paymo-trans/paymo_input/batch_payment_test.csv");
-        mStreamPaymentsFile = new File("test-0-paymo-trans/paymo_input/stream_payment_test.csv");
+    public void initPaymoFraudDetector() throws FileNotFoundException {
+        mBatchPaymentsFile = new File("unit-tests/test-2-paymo-trans/paymo_input/batch_payment_test.csv");
+        mStreamPaymentsFile = new File("unit-tests/test-2-paymo-trans/paymo_input/stream_payment_test.csv");
+        mOutput1 = new File("unit-tests/test-2-paymo-trans/paymo_output/output1.txt");
+        mOutput2 = new File("unit-tests/test-2-paymo-trans/paymo_output/output2.txt");
+        mOutput3 = new File("unit-tests/test-2-paymo-trans/paymo_output/output3.txt");
         mPaymoFraudDetector = new PaymoFraudDetector();
     }
 
@@ -81,6 +88,8 @@ public class PaymoFraudDetectorTest {
                 " SUBTOTAL        $165.00\n" +
                 " Susan Paid for Claires contacts $220 the 70/30 rule means Michael owes Susan $145.2 of that amount       Michael Paid Jacks contacts and glasses $363 (30% that is due from Susan is $119.79) - the difference between what were Claires costs and Jacks means that Michael owes Susan $25.41\n" +
                 " AMOUNT TO PAID TO SUSAN $355.41         11/6/15 ";
+
+        System.out.println(paymoTransaction.getMessage());
         assert paymoTransaction.getMessage().equals(message);
     }
 
@@ -96,9 +105,7 @@ public class PaymoFraudDetectorTest {
     public void testAnalyzeStreamWithInit() throws IOException, UninitializedGraphException {
 
         mPaymoFraudDetector.initGraph(mBatchPaymentsFile);
-        mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile,
-                new File("test-0-paymo-trans/paymo_output/output1.txt"),
-                Feature.FEATURE_ONE);
+        mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile, mOutput1, Feature.FEATURE_ONE);
 
         File output = mPaymoFraudDetector.getOutputFile();
         BufferedReader br = new BufferedReader(new FileReader(output));
@@ -110,9 +117,7 @@ public class PaymoFraudDetectorTest {
 
     @Test(expected = UninitializedGraphException.class)
     public void testAnalyzeStreamWithoutInit() throws IOException, UninitializedGraphException {
-        mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile,
-                new File("test-0-paymo-trans/paymo_output/output1.txt"),
-                Feature.FEATURE_ONE);
+        mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile, mOutput1, Feature.FEATURE_ONE);
     }
 
     @Test
@@ -121,9 +126,7 @@ public class PaymoFraudDetectorTest {
         String unverified = "unverified";
 
         mPaymoFraudDetector.initGraph(mBatchPaymentsFile);
-        mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile,
-                new File("test-0-paymo-trans/paymo_output/output1.txt"),
-                Feature.FEATURE_ONE);
+        mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile,mOutput1, Feature.FEATURE_ONE);
 
         File output = mPaymoFraudDetector.getOutputFile();
         BufferedReader br = new BufferedReader(new FileReader(output));
@@ -147,9 +150,7 @@ public class PaymoFraudDetectorTest {
         String unverified = "unverified";
 
         mPaymoFraudDetector.initGraph(mBatchPaymentsFile);
-        mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile,
-                new File("test-0-paymo-trans/paymo_output/output2.txt"),
-                Feature.FEATURE_TWO);
+        mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile, mOutput2, Feature.FEATURE_TWO);
 
         File output = mPaymoFraudDetector.getOutputFile();
         BufferedReader br = new BufferedReader(new FileReader(output));
@@ -173,9 +174,7 @@ public class PaymoFraudDetectorTest {
         String unverified = "unverified";
 
         mPaymoFraudDetector.initGraph(mBatchPaymentsFile);
-        mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile,
-                new File("test-0-paymo-trans/paymo_output/output3.txt"),
-                Feature.FEATURE_THREE);
+        mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile, mOutput3, Feature.FEATURE_THREE);
 
         File output = mPaymoFraudDetector.getOutputFile();
         BufferedReader br = new BufferedReader(new FileReader(output));
