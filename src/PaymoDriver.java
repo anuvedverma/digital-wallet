@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
  * @Class PaymoDriver
  * Main class to start program from terminal/bash.
  */
-public class RenameDriver {
+public class PaymoDriver {
 
     /* Main method: handles 5 arguments:
      * @arg0: input batch payment file for initializing graph
