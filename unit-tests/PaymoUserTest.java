@@ -45,7 +45,4 @@ public class PaymoUserTest {
 
         assert (hashSet.size() == 2);
     }
-
-
-
 }

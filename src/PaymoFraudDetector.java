@@ -60,7 +60,7 @@ public class PaymoFraudDetector {
 				try {
 					// parse transaction
 					paymoTransaction = parsePaymoTransaction(line);
-					// System.out.println("# " + paymoTransaction.getMessage());
+//					 System.out.println("# " + paymoTransaction.getMessage());
 
 					// verify transaction
 					paymoTransaction.setVerified(true);

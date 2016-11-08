@@ -3,89 +3,69 @@ import java.util.*;
 
 /**
  * Created by Anuved on 11/5/2016.
+ *
+ * @Class PaymoGraph
+ * Used to track payment relationships between users and their respective friend networks.
+ * PaymoUsers are represented as Vertices to allow for graph algorithms.
  */
 public class PaymoGraph {
 
+	/* Stores all vertices in HashMap for quick lookup.
+	*  Key = unique User ID Value = Vertex object containing PaymoUser and graph vertex properties
+	*/
 	private HashMap<Integer, Vertex> mVertices = new HashMap<>();
 
+	/* Received new PaymoTransaction, extracts users from it, and adds/connects vertices to graph accordingly */
 	public void addTransaction(PaymoTransaction newTransaction) {
+
+		// get users from transaction
 		PaymoUser user1 = newTransaction.getPaymoUser1();
 		PaymoUser user2 = newTransaction.getPaymoUser2();
 
-		addVertex(user1);
-		addVertex(user2);
-
+		// connect vertices
 		connectVertices(user1,user2);
 	}
 
+	/* Adds user vertex to graph if it doesn't already exist */
 	public void addVertex(PaymoUser user) {
-		if(mVertices.containsKey(user.getUserID()))
+		if(mVertices.containsKey(user.getUserID())) // check is unnecessary with HashMap, but kept for readability
 			return;
 		mVertices.put(user.getUserID(), new Vertex(user));
 	}
 
-	private void connectVertices(PaymoUser user1, PaymoUser user2) {
-
-		boolean bothExist = (mVertices.containsKey(user1.getUserID())) && (mVertices.containsKey(user2.getUserID()));
-//		boolean firstExists = (mVertices.containsKey(user1.getUserID())) && (!mVertices.containsKey(user2.getUserID()));
-//		boolean secondExists = (!mVertices.containsKey(user1.getUserID())) && (mVertices.containsKey(user2.getUserID()));
-//		boolean noneExist = (!mVertices.containsKey(user1.getUserID())) && (!mVertices.containsKey(user2.getUserID()));
-
-		Vertex user1Vertex;
-		Vertex user2Vertex;
-
-		if(bothExist) {
-			user1Vertex = mVertices.get(user1.getUserID());
-			user2Vertex = mVertices.get(user2.getUserID());
-
-			user1Vertex.addNeighbor(user2Vertex);
-			user2Vertex.addNeighbor(user1Vertex);
-			mVertices.put(user1.getUserID(), user1Vertex);
-			mVertices.put(user2.getUserID(), user2Vertex);
-
-		}
-//		else if(firstExists) {
-//			user1Vertex = mVertices.get(user1.getUserID());
-//			user2Vertex = new Vertex(user2);
-//		}
-//		else if(secondExists) {
-//			user1Vertex = new Vertex(user1);
-//			user2Vertex = mVertices.get(user2.getUserID());
-//		}
-//		else { // if noneExist
-//			user1Vertex = new Vertex(user1);
-//			user2Vertex = new Vertex(user2);
-//		}
-
-//		user1Vertex.addNeighbor(user2Vertex);
-//		user2Vertex.addNeighbor(user1Vertex);
-//		mVertices.put(user1.getUserID(), user1Vertex);
-//		mVertices.put(user2.getUserID(), user2Vertex);
-	}
-
-
+	/* Checks whether two users are within a certain number of degree from each other */
 	public boolean withinDegree(PaymoUser user1, PaymoUser user2, int degree) {
 
+		// get user vertices from HashMap
 		Vertex user1Vertex = mVertices.get(user1.getUserID());
 		Vertex user2Vertex = mVertices.get(user2.getUserID());
 
-		if(degree < 2)
-			return feature1(user1Vertex, user2Vertex);
+		// checks degree number so that we implement optimal algorithm
+		if(degree > 2)
+			return isWithinXDegrees(user1Vertex, user2Vertex, degree); // feature 3
 		else if(degree == 2)
-			return feature2(user1Vertex, user2Vertex);
+			return isWithinTwoDegrees(user1Vertex, user2Vertex); // feature 2
+		else if(degree == 1)
+			return isWithinOneDegree(user1Vertex, user2Vertex); // feature 1
+		else if(degree == 0)
+			return user1.equals(user2);
 		else
-			return feature3(user1Vertex, user2Vertex, degree);
+			return false;
 	}
 
-	private boolean feature1(Vertex user1Vertex, Vertex user2Vertex) {
+	/* Checks if two users are each other's neighbors in O(1) lookup */
+	private boolean isWithinOneDegree(Vertex user1Vertex, Vertex user2Vertex) {
 		return user1Vertex.hasNeighbor(user2Vertex);
 	}
 
-	private boolean feature2(Vertex user1Vertex, Vertex user2Vertex) {
+	/* Checks if two users are 2nd degree neighbors in O(n) search and lookup */
+	private boolean isWithinTwoDegrees(Vertex user1Vertex, Vertex user2Vertex) {
 
-		if(feature1(user1Vertex, user2Vertex))
+		// if they're within 1 degree, then they're within 2 degree
+		if(isWithinOneDegree(user1Vertex, user2Vertex))
 			return true;
 
+		// else iterate through user1's neighbors to see if they are neighbors with user2
 		for(Vertex friendVertex : user1Vertex.getNeighbors()) {
 			if(user2Vertex.hasNeighbor(friendVertex))
 				return true;
@@ -93,39 +73,47 @@ public class PaymoGraph {
 		return false;
 	}
 
-	private boolean feature3(Vertex user1Vertex, Vertex user2Vertex, int degree) {
+	/* Using BFS algorithm, searches up to @param degrees away from user1 to check if user2 is within the network */
+	private boolean isWithinXDegrees(Vertex user1Vertex, Vertex user2Vertex, int degree) {
 
-		if(feature1(user1Vertex, user2Vertex))
+		// if within 1 or 2 degrees, then also within all degree > 2
+		if(isWithinOneDegree(user1Vertex, user2Vertex))
 			return true;
 
-		if(feature2(user1Vertex, user2Vertex))
+		if(isWithinTwoDegrees(user1Vertex, user2Vertex))
 			return true;
 
+		// init verification false- is set to true if user2 is found within user1's network
         boolean verified = false;
 
-		// start BFS
-		Queue<Vertex> queue = new LinkedList<>();
-		Queue<Vertex> nodesToClean = new LinkedList<>();
+		/* Start BFS Algorithm */
+		Queue<Vertex> queue = new LinkedList<>(); // tracks all neighbors to visit layer-by-layer
+		Queue<Vertex> nodesToClean = new LinkedList<>(); // keep track of all nodes visited for cleanup later
 
-		// init source
+		// init source vertex
 		Vertex source = user1Vertex;
 		Vertex current = source;
 		current.setColor(Color.GRAY);
 		current.setDistanceFromSource(0);
 		current.setParent(null);
+
+		// add vertex to queue and also track all visited nodes for resetting after BFS
 		queue.add(current);
 		nodesToClean.add(current);
 
-		// run BFS
+		// run BFS until network is exhausted or we've extended beyond network of interest
 		while (!queue.isEmpty() && current.getDistanceFromSource() + 1 < degree) {
 
+			// get next vertex in queue
 			current = queue.poll();
 
+			// check if user2 is neighbor of current vertex
 			if(current.hasNeighbor(user2Vertex))
 				verified = true;
 
+			// if user2 isn't found, add the unvisited children of current node to the queue
 			Vertex parent = current;
-			for(Vertex neighbor : current.getNeighbors()) {
+			for (Vertex neighbor : current.getNeighbors()) {
 				if (neighbor.getColor() == Color.WHITE) {
 					queue.add(neighbor);
 					nodesToClean.add(neighbor);
@@ -137,101 +125,45 @@ public class PaymoGraph {
 		}
 
 		// reset vertices touched by BFS
-        for(Vertex v : nodesToClean) {
-			v.setColor(Color.WHITE);
-			v.setDistanceFromSource(Integer.MAX_VALUE);
-			v.setParent(null);
-		}
+        for(Vertex v : nodesToClean)
+			v.cleanVertex();
 
 		return verified;
 	}
 
+	/* Connects two users by adding them to each other's adjacency lists (assuming both are already in graph) */
+	public void connectVertices(PaymoUser user1, PaymoUser user2) {
 
+		// add vertices to graph if not already in it
+		addVertex(user1);
+		addVertex(user2);
+
+		// get vertices of interest from the graph
+		Vertex user1Vertex = mVertices.get(user1.getUserID());
+		Vertex user2Vertex = mVertices.get(user2.getUserID());
+
+		// add both vertices to each other's adjacency lists to connect them (ie. add edge)
+		user1Vertex.addNeighbor(user2Vertex);
+		user2Vertex.addNeighbor(user1Vertex);
+	}
+
+	/* Check if graph contains a particular user, based on unique User ID */
 	public boolean contains(PaymoUser user) {
 		return mVertices.get(user.getUserID()) != null;
 	}
 
+	/* Return the vertex corresponding with a particular user */
 	public Vertex getVertex(PaymoUser user) {
 		return mVertices.get(user.getUserID());
 	}
 
+	/* Tracks size of graph in terms of number of vertices */
 	public int numVertices() {
 		return mVertices.size();
 	}
 
+	/* Returns an iterable of all vertices in graph */
 	public Collection<Vertex> getVertices() {
 		return mVertices.values();
-	}
-}
-
-class Vertex {
-	private PaymoUser mPaymoUser;
-	private HashMap<Integer, Vertex> mAdjList;
-	private Color mColor;
-	private Integer mDistanceFromSource;
-	private Vertex mParent;
-
-	public Vertex(PaymoUser paymoUser) {
-		mPaymoUser = paymoUser;
-		mAdjList = new HashMap<>();
-		mColor = Color.WHITE;
-		mDistanceFromSource = Integer.MAX_VALUE;
-		mParent = null;
-	}
-
-	public PaymoUser getPaymoUser() {
-		return mPaymoUser;
-	}
-
-	public Color getColor() {
-		return mColor;
-	}
-
-	public void setColor(Color color) {
-		mColor = color;
-	}
-
-	public Integer getDistanceFromSource() {
-		return mDistanceFromSource;
-	}
-
-	public void setDistanceFromSource(Integer distanceFromSource) {
-		mDistanceFromSource = distanceFromSource;
-	}
-
-	public Vertex getParent() {
-		return mParent;
-	}
-
-	public void setParent(Vertex parent) {
-		mParent = parent;
-	}
-
-	public Collection<Vertex> getNeighbors() {
-		return mAdjList.values();
-	}
-
-	public void addNeighbor(Vertex neighbor) {
-		mAdjList.put(neighbor.getPaymoUser().getUserID(), neighbor);
-	}
-
-	public boolean hasNeighbor(Vertex user) {
-		return mAdjList.containsKey(user.getPaymoUser().getUserID());
-	}
-
-	public boolean hasNeighbor(PaymoUser user) {
-		return mAdjList.containsKey(user.getUserID());
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if(mPaymoUser.getUserID() == ((Vertex) object).getPaymoUser().getUserID())
-			return true;
-		else return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return mPaymoUser.getUserID().hashCode();
 	}
 }

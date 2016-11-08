@@ -15,6 +15,7 @@ target/*
 # Intellij
 /.idea
 digital-wallet.iml
+*.iml
 
 # User-specific stuff:
 .idea/workspace.xml
