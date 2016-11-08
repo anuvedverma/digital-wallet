@@ -4,7 +4,7 @@ import java.io.*;
  * Created by Anuved on 11/5/2016.
  */
 
-public class PaymoDriver {
+public class PayMoDriver {
 
     public static void main(String[] args) {
         File batchPaymentsFile = new File("paymo_input/batch_payment_test.csv");
