@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
  * Created by Anuved on 11/5/2016.
  */
 
-public class RenameDriver {
+public class PaymoDriver {
 
     public static void main(String[] args) {
         File batchPaymentsFile = new File("paymo_input/batch_payment_test.csv");
