@@ -1,10 +1,11 @@
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Created by Anuved on 11/5/2016.
  */
 
-public class PayMoDriver {
+public class RenameDriver {
 
     public static void main(String[] args) {
         File batchPaymentsFile = new File("paymo_input/batch_payment_test.csv");
