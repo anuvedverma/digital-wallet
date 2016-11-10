@@ -26,17 +26,11 @@ public class PaymoFraudDetector {
     private static final String TRUSTED = "trusted";
     private static final String UNVERIFIED = "unverified";
 
-    private static final String TRANSPORTATION = "transportation";
-    private static final String FOOD = "food/groceries";
-    private static final String PARTY = "party/drinks";
-    private static final String CLOTHING = "clothing";
-    private static final String MISC = "miscellaneous";
-
-
     /* Determines how many degrees to span user network analysis depending on which feature level was requested */
     private static final int FEATURE_ONE_DEGREES = 1;
     private static final int FEATURE_TWO_DEGREES = 2;
     private static final int FEATURE_THREE_DEGREES = 4;
+    private static final int FEATURE_FOUR_DEGREES = 3;
 
 	/* File to which output will be written (tracked mostly just for downstream analysis, testing, etc.) */
 	private File mOutputFile;
@@ -137,6 +131,10 @@ public class PaymoFraudDetector {
 							if(mPaymoGraph.withinDegree(user1, user2, FEATURE_THREE_DEGREES))
 								paymoTransaction.setVerified(true);
 							break;
+						case FEATURE_FOUR:
+							if(mPaymoGraph.withinDegree(user1, user2, FEATURE_FOUR_DEGREES))
+								paymoTransaction.setVerified(true);
+							break;
 						default:
 							if(mPaymoGraph.withinDegree(user1, user2, 1))
 								paymoTransaction.setVerified(true);
@@ -144,9 +142,18 @@ public class PaymoFraudDetector {
 					}
 
 					// write to output file
-					if(paymoTransaction.isVerified())
-						outputWriter.write(TRUSTED + "\n");
-					else outputWriter.write(UNVERIFIED + "\n");
+					if(featureLevel != Feature.FEATURE_FOUR) {
+						if (paymoTransaction.isVerified())
+							outputWriter.write(TRUSTED + "\n");
+						else outputWriter.write(UNVERIFIED + "\n");
+					}
+					// below only used for extra feature 4
+					else {
+						if (paymoTransaction.isVerified())
+							outputWriter.write(TRUSTED + ": ");
+						else outputWriter.write(UNVERIFIED + ": ");
+						outputWriter.write(paymoTransaction.getTransactionTypesAsString() + "\n");
+					}
 
 					// update graph
 					mPaymoGraph.addTransaction(paymoTransaction);

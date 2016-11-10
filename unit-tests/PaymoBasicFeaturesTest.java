@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by Anuved on 11/6/2016.
  */
-public class PaymoFeaturesTest {
+public class PaymoBasicFeaturesTest {
 
     private PaymoGraph mPaymoGraph;
 
@@ -177,5 +177,9 @@ public class PaymoFeaturesTest {
         output = method.invoke(mPaymoGraph, mPaymoGraph.getVertex(user6), mPaymoGraph.getVertex(user2), degreeThreshold);
         assert ((Boolean) output == false);
     }
+
+    /*
+    * Test for extra Feature 4 (message analysis) is under PaymoTransactionTest.
+    * */
 
 }

@@ -7,6 +7,9 @@ import java.text.ParseException;
 
 /**
  * Created by Anuved on 11/6/2016.
+ *
+ * @TestClass PaymoFraudDetectorTest
+ * Tests various aspects of the entire PaymoFraudDetector application with file I/O.
  */
 public class PaymoFraudDetectorTest {
 
@@ -17,6 +20,7 @@ public class PaymoFraudDetectorTest {
     private File mOutput1;
     private File mOutput2;
     private File mOutput3;
+    private File mOutput4;
 
     @Before
     public void initPaymoFraudDetector() throws FileNotFoundException {
@@ -25,6 +29,7 @@ public class PaymoFraudDetectorTest {
         mOutput1 = new File("unit-tests/test-paymo-trans/paymo_output/output1.txt");
         mOutput2 = new File("unit-tests/test-paymo-trans/paymo_output/output2.txt");
         mOutput3 = new File("unit-tests/test-paymo-trans/paymo_output/output3.txt");
+        mOutput4 = new File("unit-tests/test-paymo-trans/paymo_output/output4.txt");
         mPaymoFraudDetector = new PaymoFraudDetector();
     }
 
@@ -118,6 +123,7 @@ public class PaymoFraudDetectorTest {
         mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile, mOutput1, Feature.FEATURE_ONE);
     }
 
+    /* Test Feature 1 with File I/O: trusted up to 1st degree */
     @Test
     public void testAnalyzeStreamFeatureOne() throws IOException, UninitializedGraphException {
         String trusted = "trusted";
@@ -142,6 +148,7 @@ public class PaymoFraudDetectorTest {
         Assert.assertNull(br.readLine());
     }
 
+    /* Test Feature 2 with File I/O: trusted up to 2nd degree */
     @Test
     public void testAnalyzeStreamFeatureTwo() throws IOException, UninitializedGraphException {
         String trusted = "trusted";
@@ -166,6 +173,7 @@ public class PaymoFraudDetectorTest {
         Assert.assertNull(br.readLine());
     }
 
+    /* Test Feature 3 with File I/O: trusted up to 4th degree */
     @Test
     public void testAnalyzeStreamFeatureThree() throws IOException, UninitializedGraphException {
         String trusted = "trusted";
@@ -190,4 +198,28 @@ public class PaymoFraudDetectorTest {
         Assert.assertNull(br.readLine());
     }
 
+    /* Test Feature 4 with File I/O: trusted up to 3rd degree */
+    @Test
+    public void testAnalyzeStreamFeatureFour() throws IOException, UninitializedGraphException {
+        String trusted = "trusted";
+        String unverified = "unverified";
+
+        mPaymoFraudDetector.initGraph(mBatchPaymentsFile);
+        mPaymoFraudDetector.analyzeStream(mStreamPaymentsFile, mOutput4, Feature.FEATURE_FOUR);
+
+        File output = mPaymoFraudDetector.getOutputFile();
+        BufferedReader br = new BufferedReader(new FileReader(output));
+        assert br.readLine().equals(unverified + ": " + TransactionType.MISC);
+        assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
+        assert br.readLine().equals(trusted + ": " + TransactionType.FOOD);
+        assert br.readLine().equals(trusted + ": " + TransactionType.CLOTHING);
+        assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
+        assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
+        assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
+        assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
+        assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
+        assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
+        assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
+        Assert.assertNull(br.readLine());
+    }
 }

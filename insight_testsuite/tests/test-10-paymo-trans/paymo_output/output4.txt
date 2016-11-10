@@ -1,0 +1,11 @@
+unverified: miscellaneous
+trusted: miscellaneous
+trusted: food-related
+trusted: clothing
+trusted: miscellaneous
+trusted: miscellaneous
+trusted: miscellaneous
+trusted: miscellaneous
+trusted: miscellaneous
+trusted: miscellaneous
+trusted: miscellaneous

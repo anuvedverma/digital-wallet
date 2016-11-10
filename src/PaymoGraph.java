@@ -118,27 +118,42 @@ public class PaymoGraph {
 		queue.add(current);
 		nodesToClean.add(current);
 
+		// track current depth of bfs, as well as whether depth will increase, to allow early termination
+		int depth = 0;
+		Vertex lastVertex = current;
+
 		// run BFS until network is exhausted or we've extended beyond network of interest
-		while (!queue.isEmpty() && current.getDistanceFromSource() + 1 < degree) {
+		while (!queue.isEmpty() && depth < degree) {
 
 			// get next vertex in queue
 			current = queue.poll();
 
+			if(current.getDistanceFromSource() > lastVertex.getDistanceFromSource())
+				depth++;
+			/*
+			 * Problem:
+			 * - if depth is at one less than degree, then we
+			  * */
 			// check if user2 is neighbor of current vertex
-			if(current.hasNeighbor(user2Vertex))
+			if(current.hasNeighbor(user2Vertex) && depth < degree) {
 				verified = true;
+				break;
+			}
+
 
 			// if user2 isn't found, add the unvisited children of current node to the queue
-			Vertex parent = current;
 			for (Vertex neighbor : current.getNeighbors()) {
 				if (neighbor.getColor() == Color.WHITE) {
+					neighbor.setColor(Color.GRAY);
+					neighbor.setDistanceFromSource(current.getDistanceFromSource() + 1);
+					neighbor.setParent(current);
+
 					queue.add(neighbor);
 					nodesToClean.add(neighbor);
-					neighbor.setColor(Color.GRAY);
-					neighbor.setDistanceFromSource(parent.getDistanceFromSource() + 1);
-					neighbor.setParent(parent);
 				}
 			}
+
+			lastVertex = current;
 		}
 
 		// reset vertices touched by BFS
