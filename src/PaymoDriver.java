@@ -10,11 +10,12 @@ import java.io.FileNotFoundException;
 public class PaymoDriver {
 
     /* Main method: handles 5 arguments:
-     * @arg0: input batch payment file for initializing graph
-     * @arg1: input stream payment file for transaction analysis
-     * @arg2: output file with transaction results for Feature 1 (first degree distance)
-     * @arg3: output file with transaction results for Feature 2 (second degree distance)
-     * @arg4: output file with transaction results for Feature 3 (fourth degree distance)
+     * @args[0]: input batch payment file for initializing graph
+     * @args[1]: input stream payment file for transaction analysis
+     * @args[2]: output file with transaction results for Feature 1 (first degree distance)
+     * @args[3]: output file with transaction results for Feature 2 (second degree distance)
+     * @args[4]: output file with transaction results for Feature 3 (fourth degree distance)
+     * @args[5]: output file with transaction results for Feature 4 (message analysis for targeted ads)
       * */
     public static void main(String[] args) {
 
@@ -36,6 +37,10 @@ public class PaymoDriver {
             // initialize graph with file from arg0, analyze stream from arg1, output to arg4
             pfd.initGraph(batchPaymentsFile);
             pfd.analyzeStream(streamPaymentsFile, new File(args[4]), Feature.FEATURE_THREE);
+
+            // initialize graph with file from arg0, analyze stream from arg1, output to arg5
+            pfd.initGraph(batchPaymentsFile);
+            pfd.analyzeStream(streamPaymentsFile, new File(args[5]), Feature.FEATURE_FOUR);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

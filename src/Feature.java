@@ -8,5 +8,6 @@
 public enum Feature {
     FEATURE_ONE,
     FEATURE_TWO,
-    FEATURE_THREE
+    FEATURE_THREE,
+    FEATURE_FOUR
 }

@@ -26,6 +26,13 @@ public class PaymoFraudDetector {
     private static final String TRUSTED = "trusted";
     private static final String UNVERIFIED = "unverified";
 
+    private static final String TRANSPORTATION = "transportation";
+    private static final String FOOD = "food/groceries";
+    private static final String PARTY = "party/drinks";
+    private static final String CLOTHING = "clothing";
+    private static final String MISC = "miscellaneous";
+
+
     /* Determines how many degrees to span user network analysis depending on which feature level was requested */
     private static final int FEATURE_ONE_DEGREES = 1;
     private static final int FEATURE_TWO_DEGREES = 2;
