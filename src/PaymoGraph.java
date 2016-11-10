@@ -33,6 +33,23 @@ public class PaymoGraph {
 		mVertices.put(user.getUserID(), new Vertex(user));
 	}
 
+	/* Connects two users by adding them to each other's adjacency lists (assuming both are already in graph) */
+	public void connectVertices(PaymoUser user1, PaymoUser user2) {
+
+		// add vertices to graph if not already in it
+		addVertex(user1);
+		addVertex(user2);
+
+		// get vertices of interest from the graph
+		Vertex user1Vertex = mVertices.get(user1.getUserID());
+		Vertex user2Vertex = mVertices.get(user2.getUserID());
+
+		// add both vertices to each other's adjacency lists to connect them (ie. add edge)
+		user1Vertex.addNeighbor(user2Vertex);
+		user2Vertex.addNeighbor(user1Vertex);
+	}
+
+
 	/* Checks whether two users are within a certain number of degree from each other */
 	public boolean withinDegree(PaymoUser user1, PaymoUser user2, int degree) {
 
@@ -129,22 +146,6 @@ public class PaymoGraph {
 			v.cleanVertex();
 
 		return verified;
-	}
-
-	/* Connects two users by adding them to each other's adjacency lists (assuming both are already in graph) */
-	public void connectVertices(PaymoUser user1, PaymoUser user2) {
-
-		// add vertices to graph if not already in it
-		addVertex(user1);
-		addVertex(user2);
-
-		// get vertices of interest from the graph
-		Vertex user1Vertex = mVertices.get(user1.getUserID());
-		Vertex user2Vertex = mVertices.get(user2.getUserID());
-
-		// add both vertices to each other's adjacency lists to connect them (ie. add edge)
-		user1Vertex.addNeighbor(user2Vertex);
-		user2Vertex.addNeighbor(user1Vertex);
 	}
 
 	/* Check if graph contains a particular user, based on unique User ID */
