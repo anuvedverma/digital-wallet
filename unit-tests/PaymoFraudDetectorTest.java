@@ -50,7 +50,6 @@ public class PaymoFraudDetectorTest {
         assert paymoTransaction.getPaymoUser1().getUserID() == 1;
         assert paymoTransaction.getPaymoUser2().getUserID() == 2;
         assert paymoTransaction.getTransactionAmount() == 23.74;
-        System.out.println(paymoTransaction.getMessage());
         assert paymoTransaction.getMessage().equals("To be, or not to be");
     }
 
@@ -89,7 +88,6 @@ public class PaymoFraudDetectorTest {
                 " Susan Paid for Claires contacts $220 the 70/30 rule means Michael owes Susan $145.2 of that amount       Michael Paid Jacks contacts and glasses $363 (30% that is due from Susan is $119.79) - the difference between what were Claires costs and Jacks means that Michael owes Susan $25.41\n" +
                 " AMOUNT TO PAID TO SUSAN $355.41         11/6/15 ";
 
-        System.out.println(paymoTransaction.getMessage());
         assert paymoTransaction.getMessage().equals(message);
     }
 

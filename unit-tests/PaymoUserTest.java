@@ -7,6 +7,7 @@ import java.util.HashSet;
  */
 public class PaymoUserTest {
 
+    /* Test user equality based on User ID */
     @Test
     public void testEquals() {
         PaymoUser user1 = new PaymoUser(24);
@@ -22,6 +23,7 @@ public class PaymoUserTest {
 
     }
 
+    /* Test user hash codes based on User ID */
     @Test
     public void testHashChodeSame() {
         HashSet<PaymoUser> hashSet = new HashSet<>();

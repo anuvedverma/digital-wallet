@@ -12,10 +12,10 @@ public class PaymoGraphTest {
 
     private PaymoGraph mPaymoGraph;
 
+    /* Init PaymoGraph with batch_payment.txt before each test */
     @Before
     public void initPaymoGraph() throws FileNotFoundException {
         File batchPaymentsFile = new File("unit-tests/test-paymo-trans/paymo_input/batch_payment.txt");
-//        File batchPaymentsFile = new File("test-1-paymo-trans/paymo_input/batch_payment.txt");
 
         PaymoFraudDetector pfd = new PaymoFraudDetector();
         pfd.initGraph(batchPaymentsFile);
@@ -23,6 +23,7 @@ public class PaymoGraphTest {
         mPaymoGraph = pfd.getPaymoGraph();
     }
 
+    /* Test transaction between two new users */
     @Test
     public void testAddTransactionTwoNewUsers() {
         // new transaction
@@ -44,6 +45,7 @@ public class PaymoGraphTest {
         assert (mPaymoGraph.getVertex(user2).hasNeighbor(user1));
     }
 
+    /* Test transaction between two existing users */
     @Test
     public void testAddTransactionTwoExistingUsers() {
 
@@ -73,6 +75,7 @@ public class PaymoGraphTest {
         assert (mPaymoGraph.getVertex(user2).hasNeighbor(user1));
     }
 
+    /* Test transaction between one new user and one existing */
     @Test
     public void testAddTransactionFirstNewSecondExisting() {
 

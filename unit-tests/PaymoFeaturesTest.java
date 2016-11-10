@@ -14,6 +14,7 @@ public class PaymoFeaturesTest {
 
     private PaymoGraph mPaymoGraph;
 
+    /* Init PaymoGraph with batch_payment.txt before each test */
     @Before
     public void initPaymoGraph() throws FileNotFoundException {
         File batchPaymentsFile = new File("unit-tests/test-paymo-trans/paymo_input/batch_payment.txt");
@@ -24,6 +25,7 @@ public class PaymoFeaturesTest {
         mPaymoGraph = pfd.getPaymoGraph();
     }
 
+    /* Test Feature 1: trusted up to 1st degree */
     @Test
     public void testFeature1() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // placeholder date and amount
@@ -62,6 +64,7 @@ public class PaymoFeaturesTest {
         assert ((Boolean) output == false);
     }
 
+    /* Test Feature 2: trusted up to 2nd degree */
     @Test
     public void testFeature2() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // placeholder date and amount
@@ -107,6 +110,7 @@ public class PaymoFeaturesTest {
         assert ((Boolean) output == false);
     }
 
+    /* Test Feature 3: trusted up to 4th degree */
     @Test
     public void testFeature3() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // placeholder date and amount
