@@ -14,10 +14,10 @@ public class PaymoBasicFeaturesTest {
 
     private PaymoGraph mPaymoGraph;
 
-    /* Init PaymoGraph with batch_payment.csv before each test */
+    /* Init PaymoGraph with batch_payment.txt before each test */
     @Before
     public void initPaymoGraph() throws FileNotFoundException {
-        File batchPaymentsFile = new File("unit-tests/test-paymo-trans/paymo_input/batch_payment.csv");
+        File batchPaymentsFile = new File("unit-tests/test-paymo-trans/paymo_input/batch_payment.txt");
 
         PaymoFraudDetector pfd = new PaymoFraudDetector();
         pfd.initGraph(batchPaymentsFile);

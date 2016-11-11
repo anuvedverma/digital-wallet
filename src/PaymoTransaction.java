@@ -112,21 +112,43 @@ public class PaymoTransaction {
 
     public void setTransactionTypes(HashSet<TransactionType> transactionTypes) { mTransactionTypes = transactionTypes; }
 
-    /* Analyze message to determine what categories (TransactionType) this transaction fits in */
+    /* Analyze message to determine what categories (TransactionType) this transaction fits in.
+    * Use shingles of sizes 2 - 6 to find keyword/lemma matches for transaction types.
+    * May result in many false positive-- that's okay for our purposes.
+    * */
     private HashSet<TransactionType> analyzeTransactionTypes(String input) {
-        String message = input.toLowerCase().replaceAll("\\p{P}", "");
-		String[] words = message.split(" ");
+        String message = input.toLowerCase().replaceAll("\\p{P}", ""); // remove all punctuation and standardize case
+//		String[] words = message.split(" ");
 
+		// define shingle sizes
+		int k2 = 2;
+		int k3 = 3;
+		int k4 = 4;
+		int k5 = 5;
+		int k6 = 6;
+		int[] shingleSizes = {k2, k3, k4, k5, k6};
+
+		// init
 		HashSet<TransactionType> transactionTypes = new HashSet<>();
-		for (String word : words) {
-			if(TRANSPORTATION_KEYWORDS.contains(word))
-				transactionTypes.add(TransactionType.TRANSPORTATION);
-			if(FOOD_KEYWORDS.contains(word))
-				transactionTypes.add(TransactionType.FOOD);
-			if(PARTY_KEYWORDS.contains(word))
-				transactionTypes.add(TransactionType.PARTY);
-			if(CLOTHING_KEYWORDS.contains(word))
-				transactionTypes.add(TransactionType.CLOTHING);
+		String shingle = "";
+
+		// iterate through all shingle sizes
+		for (int i = 0; i < shingleSizes.length; i++) {
+			int shingleSize = shingleSizes[i];
+			for (int j = 0; j + shingleSize <= message.length(); j++) {
+				// extract shingle from string
+				shingle = message.substring(j, j + shingleSize);
+
+				// test shingle against keyword hashsets for membership
+				if(TRANSPORTATION_KEYWORDS.contains(shingle))
+					transactionTypes.add(TransactionType.TRANSPORTATION);
+				if(FOOD_KEYWORDS.contains(shingle))
+					transactionTypes.add(TransactionType.FOOD);
+				if(PARTY_KEYWORDS.contains(shingle))
+					transactionTypes.add(TransactionType.PARTY);
+				if(CLOTHING_KEYWORDS.contains(shingle))
+					transactionTypes.add(TransactionType.CLOTHING);
+			}
 		}
 
 		if(transactionTypes.isEmpty())
@@ -140,7 +162,9 @@ public class PaymoTransaction {
 		HashSet<String> transportationKeywords = new HashSet<>();
 		transportationKeywords.add("uber");
 		transportationKeywords.add("lyft");
+		transportationKeywords.add("taxi");
 		transportationKeywords.add("bus");
+		transportationKeywords.add("gas");
 		return transportationKeywords;
 	}
 
@@ -148,9 +172,9 @@ public class PaymoTransaction {
 	private static HashSet<String> foodKeywords() {
 		HashSet<String> foodKeywords = new HashSet<>();
 		foodKeywords.add("food");
-		foodKeywords.add("groceries");
+		foodKeywords.add("grocer");
 		foodKeywords.add("dinner");
-		foodKeywords.add("noms");
+		foodKeywords.add("pizza");
 		return foodKeywords;
 	}
 
@@ -159,15 +183,17 @@ public class PaymoTransaction {
 		HashSet<String> partyKeywords = new HashSet<>();
 		partyKeywords.add("booze");
 		partyKeywords.add("beers");
-		partyKeywords.add("alcohol");
+		partyKeywords.add("alcoho");
 		partyKeywords.add("party");
+		partyKeywords.add("club");
+		partyKeywords.add("\uD83C\uDF7A"); // beer emoji
 		return partyKeywords;
 	}
 
 	/* Define keywords and emojis to detect clothing-related transaction messages */
 	private static HashSet<String> clothingKeywords() {
 		HashSet<String> clothingKeywords = new HashSet<>();
-		clothingKeywords.add("clothing");
+		clothingKeywords.add("cloth");
 		clothingKeywords.add("shirt");
 		clothingKeywords.add("pant");
 		clothingKeywords.add("dress");

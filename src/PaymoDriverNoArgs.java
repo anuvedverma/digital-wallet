@@ -11,12 +11,12 @@ public class PaymoDriverNoArgs {
     public static void main(String[] args) {
 
         /* Hard-coded input files for quick testing */
-        File batchPaymentsFile = new File("paymo_input/batch_payment_test.csv");
-        File streamPaymentsFile = new File("paymo_input/stream_payment_test.csv");
-//        File batchPaymentsFile = new File("paymo_input/batch_payment_test.csv");
-//        File streamPaymentsFile = new File("paymo_input/stream_payment_badinput.csv");
-//        File batchPaymentsFile = new File("paymo_input/batch_payment.csv");
-//        File streamPaymentsFile = new File("paymo_input/stream_payment.csv");
+        File batchPaymentsFile = new File("paymo_input/batch_payment_test.txt");
+        File streamPaymentsFile = new File("paymo_input/stream_payment_test.txt");
+//        File batchPaymentsFile = new File("paymo_input/batch_payment_test.txt");
+//        File streamPaymentsFile = new File("paymo_input/stream_payment_badinput.txt");
+//        File batchPaymentsFile = new File("paymo_input/batch_payment.txt");
+//        File streamPaymentsFile = new File("paymo_input/stream_payment.txt");
 
         // create new fraud detector
         PaymoFraudDetector pfd = new PaymoFraudDetector();

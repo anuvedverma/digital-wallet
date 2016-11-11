@@ -24,8 +24,8 @@ public class PaymoFraudDetectorTest {
 
     @Before
     public void initPaymoFraudDetector() throws FileNotFoundException {
-        mBatchPaymentsFile = new File("unit-tests/test-paymo-trans/paymo_input/batch_payment.csv");
-        mStreamPaymentsFile = new File("unit-tests/test-paymo-trans/paymo_input/stream_payment.csv");
+        mBatchPaymentsFile = new File("unit-tests/test-paymo-trans/paymo_input/batch_payment.txt");
+        mStreamPaymentsFile = new File("unit-tests/test-paymo-trans/paymo_input/stream_payment.txt");
         mOutput1 = new File("unit-tests/test-paymo-trans/paymo_output/output1.txt");
         mOutput2 = new File("unit-tests/test-paymo-trans/paymo_output/output2.txt");
         mOutput3 = new File("unit-tests/test-paymo-trans/paymo_output/output3.txt");

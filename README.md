@@ -67,15 +67,15 @@ food, partying/alcohol, clothing, or miscellaneous reasons. For example, this da
 
 The data for this application resides in two comma-delimited files in the `paymo_input` directory. 
 
-The first file, `batch_payment.csv`, contains past data that can be used to track users who have previously paid one another. These transactions should be used to build the initial state of the entire user network.
+The first file, `batch_payment.txt`, contains past data that can be used to track users who have previously paid one another. These transactions should be used to build the initial state of the entire user network.
 
-Data in the second file, `stream_payment.csv` should be used to determine whether there's a possibility of fraud and a warning should be triggered.
+Data in the second file, `stream_payment.txt` should be used to determine whether there's a possibility of fraud and a warning should be triggered.
 
-Each new line of `stream_payment.csv` corresponds to a new, valid PayMo payment record -- regardless of being 'unverified' -- and design your program to handle a text file with a large number of payments. 
+Each new line of `stream_payment.txt` corresponds to a new, valid PayMo payment record -- regardless of being 'unverified' -- and design your program to handle a text file with a large number of payments. 
 
 ###Output
 
-The code processes each line in `stream_payment.csv` and for each payment, outputs a line containing one of two words, `trusted` or `unverified`. 
+The code processes each line in `stream_payment.txt` and for each payment, outputs a line containing one of two words, `trusted` or `unverified`. 
 
 `trusted` means the two users involved in the transaction have previously paid one another (when implementing Feature 1) or are part of the "friends network" (when implementing Feature 2 and 3).
 
@@ -92,7 +92,7 @@ The output should be written to a text file in the `paymo_output` directory. Eac
 
 [Back to Table of Contents] (README.md#table-of-contents)
 
-The `batch_payment.csv` and `stream_payment.csv` input files are formatted the same way.
+The `batch_payment.txt` and `stream_payment.txt` input files are formatted the same way.
 
 The first line is the header, which contains the names of all of the fields in the payment record. In this case, the fields are 
 
@@ -104,7 +104,7 @@ The first line is the header, which contains the names of all of the fields in t
 
 Following the header, each new line contains a single new PayMo payment record with each field delimited by a comma.
 
-For example, the first 10 lines (including the header) of `batch_payment.csv` or `stream_payment.csv` could look like: 
+For example, the first 10 lines (including the header) of `batch_payment.txt` or `stream_payment.txt` could look like: 
 
 	time, id1, id2, amount, message
 	2016-11-02 09:49:29, 52575, 1120, 25.32, Spam
@@ -134,7 +134,7 @@ Below is a sample graph to help visualize the transactions used for testing, and
 The directory structure must be as shown below for the test scripts to run, as must the format of the output data in `output1.txt`, `output2.txt` and `output3.txt`. 
 Use the test script called `run_tests.sh` in the `insight_testsuite` folder to test for the basic 3 features, and `run_tests2.sh` to test for the basic features + Feature 4.
 
-The tests are stored simply as text files under the `insight_testsuite/tests` folder. Each test must have a separate folder and each must contain a `paymo_input` folder -- where `batch_payment.csv` and `stream_payment.csv` files can be found. 
+The tests are stored simply as text files under the `insight_testsuite/tests` folder. Each test must have a separate folder and each must contain a `paymo_input` folder -- where `batch_payment.txt` and `stream_payment.txt` files can be found. 
 There also should be a `paymo_output` folder where the correct `output1.txt`, `output2.txt` and `output3.txt` must reside (as well as `output4.txt if testing Feature 4).
 
 From the `insight_testsuite` folder, you can run the test with the following command:
@@ -169,8 +169,8 @@ Repo Structure:
 	├── src
 	│  	└── *.java
 	├── paymo_input
-	│   └── batch_payment.csv
-	|   └── stream_payment.csv
+	│   └── batch_payment.txt
+	|   └── stream_payment.txt
 	├── paymo_output
 	│   └── output1.txt
 	|   └── output2.txt
@@ -180,8 +180,8 @@ Repo Structure:
 		   └── tests
 	        	└── test-1-paymo-trans
         		│   ├── paymo_input
-        		│   │   └── batch_payment.csv
-        		│   │   └── stream_payment.csv
+        		│   │   └── batch_payment.txt
+        		│   │   └── stream_payment.txt
         		│   └── paymo_output
         		│       └── output1.txt
         		│       └── output2.txt
@@ -189,8 +189,8 @@ Repo Structure:
         		│               
         		└── test-10-paymo-trans
             		 ├── paymo_input
-        		     │   └── batch_payment.csv
-        		     │   └── stream_payment.csv
+        		     │   └── batch_payment.txt
+        		     │   └── stream_payment.txt
         		     └── paymo_output
         		         └── output1.txt
         		         └── output2.txt
