@@ -4,10 +4,11 @@
 2. [Instructions] (README.md#instructions)
 3. [Description of Data] (README.md#description-of-data)
 4. [Unit Tests] (README.md#unit-tests)
-5. [Repo directory structure] (README.md#repo-directory-structure)
+5. [Directory Structure] (README.md#directory-structure)
 
 ##Overview
 This is my submission for the Insight Data Engineering Application Jan 2017 cycle. This application uses data from a fictional "digital wallet" company called PayMo that allows users to easily request and make payments to other PayMo users. The team at PayMo has decided they want to implement features to prevent fraudulent payment requests from untrusted users.
+While PayMo is a fictional company, the dataset is quite interesting -- it's inspired by a real social network, includes the time of transaction, and the messages come from real Venmo transactions.
 
 ###Feature 1
 When anyone makes a payment to another user, they'll be notified if they've never made a transaction with that user before.
@@ -42,26 +43,24 @@ In the above diagram, payments have transpired between User
 
 Under this feature, if User A were to pay User E, there would be no warning since they are "4th degree friends". 
 
-However, if User A were to pay User F, a warning would be triggered as their transaction is outside of the "4th-degree friends network."
-
-(Note that if User A were to pay User C instead, there would be no warning as they are "2nd-degree" friends and within the "4th degree network") 
+However, if User A were to pay User F, a warning would be triggered as their transaction is outside of the "4th-degree friends network" (Note that if User A were to pay User C instead, there would be no warning as they are "2nd-degree" friends and within the "4th degree network").
 
 ###Feature 4
 After examining their fraudulent transactions data, PayMo has decided that verifying transactions beyond "3rd-degree friends networks" is optimal.
 
 Furthermore, this feature now examines transaction messages and emojis between users to determine what activity the transaction was used for. This provides us with
 valuable data for targeted advertisements on the expanding PayMo platform. Specifically, this feature determines whether a transactions was used for transportation,
-food, partying/alcohol, clothing, or miscellaneous reasons. For example, this data can later be used to direct Uber ads towards users who frequently use Venmo for transportation.
+food, partying/alcohol, clothing, or miscellaneous reasons. For example, this data can later be used to direct Uber ads towards users who frequently use PayMo for transportation.
 
 
 ##Instructions
 
 * Clone the directory using `git clone https://github.com/anuvedverma/digital-wallet.git`
 * To run the included tests, run the following from the `insight_testsuite` directory:
-** To run tests for the first 3 features, run the following in your command prompt: `./run_tests.sh`
-** To run tests for the additional 4th feature, run the following in your command prompt: `./run_tests2.sh`
+..* To run tests for the first 3 features, run the following in your command prompt: `./run_tests.sh`
+..* To run tests for the additional 4th feature, run the following in your command prompt: `./run_tests2.sh`
 * To run the program with custom inputs, edit the last line in the `run.sh` BASH file of the `digital-wallet` directory as follows:
-** `java PaymoDriver <dir-to-input-batch-payment-file> <dir-to-input-stream-payment-file> <dir-to-output1-file> <dir-to-output2-file> <dir-to-output3-file> <dir-to-output4-file>`
+..* `java PaymoDriver <dir-to-input-batch-payment-file> <dir-to-input-stream-payment-file> <dir-to-output1-file> <dir-to-output2-file> <dir-to-output3-file> <dir-to-output4-file>`
 
 
 ###Input
@@ -86,7 +85,7 @@ For Feature 4, the output will have an additional field to indicate the types of
 either `trusted` or `unverified`, followed a by the types of transactions this payment qualifies for, separated by a colon. So for a message containing the text `taxis and booze`,
 we might see the output line `trusted: transportation, party-related`.
 
-The output should be written to a text file in the `paymo_output` directory. Each output file is named after the applicable feature implemented: `output1.txt`, `output2.txt`, `output3.txt`, and `output4.txt.
+The output should be written to a text file in the `paymo_output` directory. Each output file is named after the applicable feature implemented: `output1.txt`, `output2.txt`, `output3.txt`, and `output4.txt`.
 
 
 ##Description of Data
@@ -123,9 +122,13 @@ For example, the first 10 lines (including the header) of `batch_payment.csv` or
 [Back to Table of Contents] (README.md#table-of-contents)
 
 If interested, I have included several unit tests that cover the key functions of the application. They are located in the `unit-tests` directory, if you would like to examine them. 
-They use the JUnit 4.4 library, which is included with most major IDEs (Eclipse, IntelliJ), but is not necessary for running the rest of the application.
+They use the `JUnit 4`  library, which is included with most major IDEs (Eclipse, IntelliJ), but is not necessary for running the rest of the application or BASH tests.
 
-##Repo directory structure for test scripts
+Below is a sample graph to help visualize the transactions used for testing, and the order they were received in the stream:
+
+<img src="./images/StreamGraph.png" width="600">
+
+##Directory Structure
 [Back to Table of Contents] (README.md#table-of-contents)
 
 The directory structure must be as shown below for the test scripts to run, as must the format of the output data in `output1.txt`, `output2.txt` and `output3.txt`. 
