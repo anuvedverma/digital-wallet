@@ -57,10 +57,10 @@ food, partying/alcohol, clothing, or miscellaneous reasons. For example, this da
 
 * Clone the directory using `git clone https://github.com/anuvedverma/digital-wallet.git`
 * To run the included tests, run the following from the `insight_testsuite` directory:
-..* To run tests for the first 3 features, run the following in your command prompt: `./run_tests.sh`
-..* To run tests for the additional 4th feature, run the following in your command prompt: `./run_tests2.sh`
+    * To run tests for the first 3 features, run the following in your command prompt: `./run_tests.sh`
+    * To run tests for the additional 4th feature, run the following in your command prompt: `./run_tests2.sh`
 * To run the program with custom inputs, edit the last line in the `run.sh` BASH file of the `digital-wallet` directory as follows:
-..* `java PaymoDriver <dir-to-input-batch-payment-file> <dir-to-input-stream-payment-file> <dir-to-output1-file> <dir-to-output2-file> <dir-to-output3-file> <dir-to-output4-file>`
+    * `java PaymoDriver <dir-to-input-batch-payment-file> <dir-to-input-stream-payment-file> <dir-to-output1-file> <dir-to-output2-file> <dir-to-output3-file> <dir-to-output4-file>`
 
 
 ###Input
