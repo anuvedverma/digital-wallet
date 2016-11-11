@@ -4,7 +4,7 @@ trusted: food-related
 trusted: clothing
 trusted: miscellaneous
 trusted: miscellaneous
-trusted: miscellaneous
+trusted: party-related
 trusted: miscellaneous
 trusted: miscellaneous
 trusted: miscellaneous

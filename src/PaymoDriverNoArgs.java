@@ -17,6 +17,8 @@ public class PaymoDriverNoArgs {
 //        File streamPaymentsFile = new File("paymo_input/stream_payment_badinput.txt");
 //        File batchPaymentsFile = new File("paymo_input/batch_payment.txt");
 //        File streamPaymentsFile = new File("paymo_input/stream_payment.txt");
+//        File batchPaymentsFile = new File("INPUT_BACKUP/batch_payment.csv");
+//        File streamPaymentsFile = new File("INPUT_BACKUP/stream_payment.csv");
 
         // create new fraud detector
         PaymoFraudDetector pfd = new PaymoFraudDetector();

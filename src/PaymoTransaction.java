@@ -114,7 +114,7 @@ public class PaymoTransaction {
 
     /* Analyze message to determine what categories (TransactionType) this transaction fits in.
     * Use shingles of sizes 2 - 6 to find keyword/lemma matches for transaction types.
-    * May result in many false positive-- that's okay for our purposes.
+    * Will likely result in many false positive and negatives-- that's okay for our purposes as this is a proof of concept.
     * */
     private HashSet<TransactionType> analyzeTransactionTypes(String input) {
         String message = input.toLowerCase().replaceAll("\\p{P}", ""); // remove all punctuation and standardize case
@@ -165,6 +165,10 @@ public class PaymoTransaction {
 		transportationKeywords.add("taxi");
 		transportationKeywords.add("bus");
 		transportationKeywords.add("gas");
+		transportationKeywords.add("hotel");
+		transportationKeywords.add("motel");
+		transportationKeywords.add("ride ");
+		transportationKeywords.add("\uD83D\uDE95"); // taxi
 		return transportationKeywords;
 	}
 
@@ -174,19 +178,31 @@ public class PaymoTransaction {
 		foodKeywords.add("food");
 		foodKeywords.add("grocer");
 		foodKeywords.add("dinner");
-		foodKeywords.add("pizza");
+		foodKeywords.add("lunch");
+		foodKeywords.add("breakf");
+		foodKeywords.add("pizz");
+		foodKeywords.add("\uD83C\uDF54"); // burger
+		foodKeywords.add("\uD83C\uDF55"); // pizza slice
+		foodKeywords.add("\uD83C\uDF57"); // poultry leg
+		foodKeywords.add("\uD83C\uDF5F"); // fries
 		return foodKeywords;
 	}
 
 	/* Define keywords and emojis to detect party/drinking-related transaction messages */
 	private static HashSet<String> partyKeywords() {
 		HashSet<String> partyKeywords = new HashSet<>();
-		partyKeywords.add("booze");
+		partyKeywords.add("drink");
+		partyKeywords.add("drank");
 		partyKeywords.add("beers");
 		partyKeywords.add("alcoho");
+		partyKeywords.add("liquor");
 		partyKeywords.add("party");
 		partyKeywords.add("club");
-		partyKeywords.add("\uD83C\uDF7A"); // beer emoji
+		partyKeywords.add("\uD83C\uDF7A"); // beer
+		partyKeywords.add("\uD83C\uDF7B"); // clinking beer
+		partyKeywords.add("\uD83C\uDF77"); // wine
+		partyKeywords.add("\uD83C\uDF78"); // cocktail
+		partyKeywords.add("\uD83D\uDC83"); // dance
 		return partyKeywords;
 	}
 
@@ -197,6 +213,7 @@ public class PaymoTransaction {
 		clothingKeywords.add("shirt");
 		clothingKeywords.add("pant");
 		clothingKeywords.add("dress");
+		clothingKeywords.add("\uD83D\uDC55"); // shirt
 		return clothingKeywords;
 	}
 

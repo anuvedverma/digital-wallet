@@ -215,7 +215,7 @@ public class PaymoFraudDetectorTest {
         assert br.readLine().equals(trusted + ": " + TransactionType.CLOTHING);
         assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
         assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
-        assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
+        assert br.readLine().equals(trusted + ": " + TransactionType.PARTY);
         assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
         assert br.readLine().equals(trusted + ": " + TransactionType.MISC);
         assert br.readLine().equals(trusted + ": " + TransactionType.MISC);

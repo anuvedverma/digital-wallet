@@ -55,6 +55,15 @@ public class PaymoTransactionTest {
 
         assert paymoTransaction.isFoodType() == true;
     }
+
+    @Test
+    public void testFeature4_5() throws TransactionParseException {
+        String message = "2016-11-01 17:49:26, 6989, 00000, 25.32, \uD83C\uDF55";
+        PaymoTransaction paymoTransaction = PaymoFraudDetector.parsePaymoTransaction(message);
+
+        System.out.println(paymoTransaction.getMessage());
+        assert paymoTransaction.isFoodType() == true;
+    }
 }
 
 //
