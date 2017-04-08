@@ -1,10 +1,10 @@
 # Table of Contents
 
-1.[Overview] (README.md#overview)
-2.[Instructions] (README.md#instructions)
-3.[Description of Data] (README.md#description-of-data)
-4.[Unit Tests] (README.md#unit-tests)
-5.[Directory Structure] (README.md#directory-structure)
+1. [Overview](README.md#overview)
+2. [Instructions](README.md#instructions)
+3. [Description of Data](README.md#description-of-data)
+4. [Unit Tests](README.md#unit-tests)
+5. [Directory Structure](README.md#directory-structure)
 
 ## Overview
 This is my submission for the Insight Data Engineering Application Jan 2017 cycle. This application uses data from a fictional "digital wallet" company called PayMo that allows users to easily request and make payments to other PayMo users. The team at PayMo has decided they want to implement features to prevent fraudulent payment requests from untrusted users.
