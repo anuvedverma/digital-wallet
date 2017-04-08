@@ -1,21 +1,21 @@
 # Table of Contents
 
-1. [Overview] (README.md#overview)
-2. [Instructions] (README.md#instructions)
-3. [Description of Data] (README.md#description-of-data)
-4. [Unit Tests] (README.md#unit-tests)
-5. [Directory Structure] (README.md#directory-structure)
+1.[Overview] (README.md#overview)
+2.[Instructions] (README.md#instructions)
+3.[Description of Data] (README.md#description-of-data)
+4.[Unit Tests] (README.md#unit-tests)
+5.[Directory Structure] (README.md#directory-structure)
 
-##Overview
+## Overview
 This is my submission for the Insight Data Engineering Application Jan 2017 cycle. This application uses data from a fictional "digital wallet" company called PayMo that allows users to easily request and make payments to other PayMo users. The team at PayMo has decided they want to implement features to prevent fraudulent payment requests from untrusted users.
 While PayMo is a fictional company, the dataset is quite interesting -- it's inspired by a real social network, includes the time of transaction, and the messages come from real Venmo transactions.
 
-###Feature 1
+### Feature 1
 When anyone makes a payment to another user, they'll be notified if they've never made a transaction with that user before.
 
 * "unverified: You've never had a transaction with this user before. Are you sure you would like to proceed with this payment?"
 
-###Feature 2
+### Feature 2
 The PayMo team is concerned that these warnings could be annoying because there are many users who haven't had transactions, but are still in similar social networks. 
 
 For example, User A has never had a transaction with User B, but both User A and User B have made transactions with User C, so User B is considered a "friend of a friend" for User A.
@@ -28,7 +28,7 @@ To account for this, in this feature, users will only be notified when they make
 
 * "unverified: This user is not a friend or a "friend of a friend". Are you sure you would like to proceed with this payment?"
 
-###Feature 3
+### Feature 3
 More generally, PayMo would like to extend this feature to larger social networks. This feature warns users only when they're outside the "4th degree friends network".
 
 <img src="./images/fourth-degree-friends2.png" width="600">
@@ -45,7 +45,7 @@ Under this feature, if User A were to pay User E, there would be no warning sinc
 
 However, if User A were to pay User F, a warning would be triggered as their transaction is outside of the "4th-degree friends network" (Note that if User A were to pay User C instead, there would be no warning as they are "2nd-degree" friends and within the "4th degree network").
 
-###Feature 4
+### Feature 4
 After examining their fraudulent transactions data, PayMo has decided that verifying transactions beyond "3rd-degree friends networks" is optimal.
 
 Furthermore, this feature now examines transaction messages and emojis between users to determine what activity the transaction was used for. This provides us with
@@ -53,7 +53,7 @@ valuable data for targeted advertisements on the expanding PayMo platform. Speci
 food, partying/alcohol, clothing, or miscellaneous reasons. For example, this data can later be used to direct Uber ads towards users who frequently use PayMo for transportation.
 
 
-##Instructions
+## Instructions
 
 * Clone the directory using `git clone https://github.com/anuvedverma/digital-wallet.git`
 * To run the included tests, run the following from the `insight_testsuite` directory:
@@ -63,7 +63,7 @@ food, partying/alcohol, clothing, or miscellaneous reasons. For example, this da
     * `java PaymoDriver <dir-to-input-batch-payment-file> <dir-to-input-stream-payment-file> <dir-to-output1-file> <dir-to-output2-file> <dir-to-output3-file> <dir-to-output4-file>`
 
 
-###Input
+### Input
 
 The data for this application resides in two comma-delimited files in the `paymo_input` directory. 
 
@@ -73,7 +73,7 @@ Data in the second file, `stream_payment.txt` should be used to determine whethe
 
 Each new line of `stream_payment.txt` corresponds to a new, valid PayMo payment record -- regardless of being 'unverified' -- and design your program to handle a text file with a large number of payments. 
 
-###Output
+### Output
 
 The code processes each line in `stream_payment.txt` and for each payment, outputs a line containing one of two words, `trusted` or `unverified`. 
 
@@ -88,7 +88,7 @@ we might see the output line `trusted: transportation, party-related`.
 The output should be written to a text file in the `paymo_output` directory. Each output file is named after the applicable feature implemented: `output1.txt`, `output2.txt`, `output3.txt`, and `output4.txt`.
 
 
-##Description of Data
+## Description of Data
 
 [Back to Table of Contents] (README.md#table-of-contents)
 
@@ -128,7 +128,7 @@ Below is a sample graph to help visualize the transactions used for testing, and
 
 <img src="./images/StreamGraph.png" width="600">
 
-##Directory Structure
+## Directory Structure
 [Back to Table of Contents] (README.md#table-of-contents)
 
 The directory structure must be as shown below for the test scripts to run, as must the format of the output data in `output1.txt`, `output2.txt` and `output3.txt`. 
